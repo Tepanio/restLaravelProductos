@@ -11,7 +11,7 @@ class PedidoController extends Controller
 {
     public function get($id){
 
-        $pedidos = Pedido::with('productos')->where('id','=',$id)->get()
+        $pedidos = Pedido::with('productos','factura')->where('id','=',$id)->get()
             ->each(function($pedido){
                 $pedido->productos->map(function($producto){
                 $producto->cantidad = $producto->pivot->cantidad;

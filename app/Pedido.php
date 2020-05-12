@@ -13,4 +13,9 @@ class Pedido extends Model
     public function productos(){
         return $this->belongsToMany(Producto::class)->withTrashed()->withPivot('cantidad');
     }
+    
+    public function factura()
+    {
+        return $this->hasOne(Factura::class);
+    }
 }
