@@ -16,6 +16,7 @@ class CreatePedidosTable extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->string('usuario_id',20)->references('id')->on('usuarios')->onDelete('cascade');
+            $table->enum('estado', ['carrito','pago' ,'entregado'])->default('carrito');
             
         });
     }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class CreateProductosTable extends Migration
 {
     /**
@@ -18,7 +18,7 @@ class CreateProductosTable extends Migration
             $table->string('nombre');
             $table->string('descripcion');
             $table->string('precio');
-            $table->boolean('activo');
+            $table->softDeletes();
         });
     }
 

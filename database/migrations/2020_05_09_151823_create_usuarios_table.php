@@ -19,7 +19,7 @@ class CreateUsuariosTable extends Migration
             $table->string('apellido');
             $table->string('direccion');
             $table->string('telefono');
-            $table->boolean('super');
+            $table->boolean('admin');
         });
     }
 

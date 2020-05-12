@@ -17,6 +17,7 @@ class CreatePedidoProductosTable extends Migration
             $table->id();
             $table->foreignId('pedido_id')->constrained()->onDelete('cascade');
             $table->foreignId('producto_id')->constrained();
+            $table->integer('cantidad');
         });
     
         DB::connection('mysql')->table('usuarios')->insert([
@@ -27,7 +28,7 @@ class CreatePedidoProductosTable extends Migration
                 'apellido'=> 'canal',
                 'direccion'=> '',
                 'telefono'=>'',
-                'super'=> 0 ,
+                'admin'=> 0 ,
             ]
 
         ]);
@@ -39,7 +40,8 @@ class CreatePedidoProductosTable extends Migration
             ],
             [
                 
-                'usuario_id' => 'tinchorin'
+                'usuario_id' => 'tinchorin',
+                
             ]
             
 
@@ -51,19 +53,19 @@ class CreatePedidoProductosTable extends Migration
                 'nombre' => 'papa',
                 'descripcion'=>'',
                 'precio' => '99',
-                'activo'=> 1
+                
             ],
             [
                 'nombre' => 'boñato',
                 'descripcion'=>'',
                 'precio' => '9',
-                'activo'=> 1
+                
             ],
             [
                 'nombre' => 'bolas de mono',
                 'descripcion'=>'',
                 'precio' => '999999',
-                'activo'=> 1
+                
             ]
             
 

@@ -22,7 +22,7 @@ class UsuarioController extends Controller
     }
 
     public function edit(Request $request, $id){
-        $usuario = Usuario::find($id);
+        $usuario = Usuario::findOrFail($id);
         $usuario->update(json_decode($request->getContent(), true));
         return response()->json($usuario, 200);
     }
@@ -32,4 +32,21 @@ class UsuarioController extends Controller
         $usuario->delete();
         return response()->json(null,204);
     }
+
+    public function getPedidos($id){
+
+        $pedidos = Pedido::with('productos')->where('usuario_id','=',$id)->get()
+            ->each(function($pedido){
+                $pedido->productos->map(function($producto){
+                $producto->cantidad = $producto->pivot->cantidad;
+                unset($producto->pivot);
+                return $producto;
+            });
+
+        });
+        
+        return response()->json($pedidos,201);
+    }
+
+
 }

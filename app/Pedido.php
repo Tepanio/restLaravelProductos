@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pedido extends Model
 {
+    public $timestamps = false;
     protected $table = "pedidos";
-    protected $fillable = ['id'];
-    protected $hidden = ['usuario_id'];
+    protected $fillable = ['id','estado'];
     
     public function productos(){
-        return $this->belongsToMany(Producto::class);
+        return $this->belongsToMany(Producto::class)->withTrashed()->withPivot('cantidad');
     }
 }
