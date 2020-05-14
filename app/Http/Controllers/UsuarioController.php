@@ -11,13 +11,12 @@ class UsuarioController extends Controller
     
 
     public function get(){
-        $usuario = Usuario::with('pedidos.productos')->get();
+        $usuario = Usuario::with('pedidos.factura')->where('id','=',$id)->get();
         return response()->json($usuario,200);
     }
 
     public function new(Request $request){
-        $usuario =Usuario::create(json_decode($request->getContent(), true));
-        
+        $usuario =Usuario::create(json_decode($request->getContent(), true));     
         return response()->json($usuario,201);
     }
 
@@ -33,20 +32,6 @@ class UsuarioController extends Controller
         return response()->json(null,204);
     }
 
-    public function getPedidos($id){
-
-        $pedidos = Pedido::with('productos')->where('usuario_id','=',$id)->get()
-            ->each(function($pedido){
-                $pedido->productos->map(function($producto){
-                $producto->cantidad = $producto->pivot->cantidad;
-                unset($producto->pivot);
-                return $producto;
-            });
-
-        });
-        
-        return response()->json($pedidos,201);
-    }
 
 
 }

@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Usuario Route
-Route::get('usuario','UsuarioController@get');
+Route::get('usuario/$id','UsuarioController@get');
 Route::post('usuario','UsuarioController@new');
 Route::put('usuario/{id}','UsuarioController@edit');
 Route::delete('usuario/{id}','UsuarioController@delete');
@@ -28,12 +28,9 @@ Route::get('usuario/{id}/pedidos','UsuarioController@getPedidos');
 ///Pedido
 Route::get('pedido','PedidoController@getCarrito');
 Route::put('pedido','PedidoController@edit');
-
 Route::get('pedido/{id}','PedidoController@get');
-
-Route::get('pedido/pago','PedidoController@getPago');
-Route::get('pedido/entregado','PedidoController@getEntregado');
 Route::delete('pedido/{id}','PedidoController@delete');
+
 ///Articulo
 Route::get('producto','ProductoController@get');
 Route::post('producto','ProductoController@new');
