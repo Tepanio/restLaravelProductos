@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
-|--------------------------------------------------------------------------
+|------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
@@ -19,19 +19,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Usuario Route
-Route::get('usuario/{id}','UsuarioController@get');
-Route::get('usuario/','UsuarioController@getAll');
-Route::post('usuario','UsuarioController@new');
-Route::put('usuario/{id}','UsuarioController@edit');
-Route::delete('usuario/{id}','UsuarioController@delete');
+Route::get('usuarios/{id}','UsuarioController@get');
+Route::get('usuarios/','UsuarioController@getAll');
+Route::post('usuarios','UsuarioController@new');
+Route::put('usuarios/{id}','UsuarioController@edit');
+Route::delete('usuarios/{id}','UsuarioController@delete');
 
-///Pedido
-Route::get('carrito','PedidoController@getCarrito');
+///Pedid\Route::get('carrito','PedidoController@getCarrito');
 Route::put('carrito','PedidoController@edit');
 
-Route::get('pedido/{id}','PedidoController@getById');
-Route::get('pedido','PedidoController@get');
-Route::delete('pedido/{id}','PedidoController@delete');
+Route::get('pedidos/{id}','PedidoController@getById');
+Route::get('pedidos','PedidoController@get');
+Route::delete('pedidos/{id}','PedidoController@delete');
 
 ///Articulo
 Route::get('producto','ProductoController@get');
