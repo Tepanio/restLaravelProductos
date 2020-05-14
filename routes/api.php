@@ -33,7 +33,7 @@ Route::get('pedidos','PedidoController@get');
 Route::delete('pedidos/{id}','PedidoController@delete');
 
 ///Articulo
-Route::get('producto','ProductoController@get');
-Route::post('producto','ProductoController@new');
-Route::put('producto/{id}','ProductoController@edit');
-Route::delete('producto/{id}','ProductoController@delete');
+Route::get('productos','ProductoController@get');
+Route::post('productos','ProductoController@new');
+Route::put('productos/{id}','ProductoController@edit');
+Route::delete('productos/{id}','ProductoController@delete');
