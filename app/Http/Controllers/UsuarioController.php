@@ -10,8 +10,17 @@ class UsuarioController extends Controller
 {
     
 
-    public function get(){
+    public function get($id){
+        if(!is_null($id)){
         $usuario = Usuario::with('pedidos.factura')->where('id','=',$id)->get();
+        }
+        else{
+            $usuario = Usuario::with('pedidos.factura')->get();
+        }
+        if(empty($usuario)){
+            return response()->json($usuario,404);
+        }
+
         return response()->json($usuario,200);
     }
 

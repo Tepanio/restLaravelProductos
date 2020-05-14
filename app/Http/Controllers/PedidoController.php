@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class PedidoController extends Controller
 
 {
-    public function get($id,Request $request){
+    public function get(Request $request){
         $usuario_id = $request->get('usuario_id');
         $estado = $request->get('estado');
         $comparacion = [];
@@ -26,11 +26,6 @@ class PedidoController extends Controller
              array_push($comparacion ,['estado','=',$estado]); 
          }
 
-         if(!is_null($id)){
-             array_push($comparacion,['id','=',$id]);
-         }
-
-        
         $pedidos = Pedido::with('productos','factura')->where($comparacion)->get()
             ->each(function($pedido){
                 $pedido->productos->map(function($producto){
@@ -41,10 +36,25 @@ class PedidoController extends Controller
 
         });
         
-        return response()->json($comparacion,201);
+        return response()->json($pedidos,201);
     }
 
 
+    public function getById($id){
+        Pedido::findOrFail($id);
+        $pedidos = Pedido::with('productos','factura')->where('id','=',$id)->get()
+            ->each(function($pedido){
+                $pedido->productos->map(function($producto){
+                $producto->cantidad = $producto->pivot->cantidad;
+                unset($producto->pivot);
+                return $producto;
+            });
+
+        });
+        
+        return response()->json($pedidos,201);
+    }
+    
     public function edit(Request $request){
         $data = json_decode($request->getContent(), true);
         $id = $request->get('user_id');
