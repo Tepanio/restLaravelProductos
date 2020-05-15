@@ -96,10 +96,12 @@ class PedidoController extends Controller
     }
 
 
-
     public function delete($id){
-        $pedido = Pedido::find($id);
+        $pedido = Pedido::findOrFail($id);
         $pedido->delete();
         return response()->json(null,204);
     }
+
+
+    
 }
