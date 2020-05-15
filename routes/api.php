@@ -25,7 +25,8 @@ Route::post('usuarios','UsuarioController@new');
 Route::put('usuarios/{id}','UsuarioController@edit');
 Route::delete('usuarios/{id}','UsuarioController@delete');
 
-///Pedid\Route::get('carrito','PedidoController@getCarrito');
+///Pedid\
+Route::get('carrito','PedidoController@getCarrito');
 Route::put('carrito','PedidoController@edit');
 
 Route::get('pedidos/{id}','PedidoController@getById');
