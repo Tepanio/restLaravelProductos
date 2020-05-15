@@ -34,7 +34,24 @@ class UsuarioController extends Controller
         $usuario->update(json_decode($request->getContent(), true));
         return response()->json($usuario, 200);
     }
+    public function getCarrito($id,Request $request){
+        $data = json_decode($request->getContent(), true);
+        $usuario = Usuario::findOrFail($id);
+        $pedido = $usuario->pedidos()->where('estado','=','carrito')->first();
+        if(is_null($pedido)){
+            $pedido = new Pedido;
+            $pedido->estado= 'carrito';
+            $usuario->pedidos()->save($pedido);
+            $pedido->save();
+        }
+        $productos = $pedido->productos()->get();
+        foreach ($productos as $producto) {
+            $producto->cantidad = $producto->pivot->cantidad;
+        unset($producto->pivot);
+        }
 
+        return response()->json($productos,201);
+    }
     public function delete($id){
         $usuario = Usuario::find($id);
         $usuario->delete();

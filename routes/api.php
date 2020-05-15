@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Usuario Route
 Route::get('usuarios/{id}','UsuarioController@get');
+Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito');
 Route::get('usuarios/','UsuarioController@getAll');
 Route::post('usuarios','UsuarioController@new');
 Route::put('usuarios/{id}','UsuarioController@edit');
