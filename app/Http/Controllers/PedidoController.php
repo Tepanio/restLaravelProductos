@@ -17,13 +17,15 @@ class PedidoController extends Controller
            array_push($comparacion ,['usuario_id','!=',$usuario_id]); 
         }
         else{
-            array_push($comparacion ,['usuario_id','=',$usuario_id]); 
+            array_push($comparacion ,['usuario_id','=',$usuario_id]);
+            array_push($comparacion ,['estado','!=','carrito']); 
         }
         if(is_null($estado)){
             array_push($comparacion ,['estado','!=',$estado]); 
          }
          else{
-             array_push($comparacion ,['estado','=',$estado]); 
+             array_push($comparacion ,['estado','=',$estado]);
+             array_push($comparacion ,['estado','!=','carrito']); 
          }
 
         $pedidos = Pedido::with('productos','factura')->where($comparacion)->get()
@@ -54,7 +56,9 @@ class PedidoController extends Controller
         
         return response()->json($pedidos,201);
     }
-    
+
+
+    /*
     public function edit(Request $request){
         $data = json_decode($request->getContent(), true);
         $id = $request->get('user_id');
@@ -74,8 +78,50 @@ class PedidoController extends Controller
         }
         return response()->json($productos,201);
     }
+    */
 
 
+
+
+    public function postProducto($id,Request $request){
+        $data = json_decode($request->getContent(), true);
+        $pedido = Pedido::findOrFail($id);
+        $pedido->productos()->attach($data);
+        $pedido->save();
+        $productos = $pedido->productos()->get();
+        foreach ($productos as $producto) {
+            $producto->cantidad = $producto->pivot->cantidad;
+        unset($producto->pivot);
+        }
+        return response()->json($productos,201);
+    }
+
+    public function putProducto($id,Request $request){
+        $data = json_decode($request->getContent(), true);
+        $pedido = Pedido::findOrFail($id);
+        $pedido->productos()->updateExistingPivot($request->get('producto_id'),["cantidad" => $request->get('cantidad')]);
+        $pedido->save();
+        $productos = $pedido->productos()->get();
+        foreach ($productos as $producto) {
+            $producto->cantidad = $producto->pivot->cantidad;
+        unset($producto->pivot);
+        }
+        return response()->json($productos,201);
+    }
+    public function deleteProducto($id,Request $request){
+        $data = json_decode($request->getContent(), true);
+        $pedido = Pedido::findOrFail($id);
+        $pedido->productos()->detach($data);
+       
+        $productos = $pedido->productos()->get();
+        foreach ($productos as $producto) {
+            $producto->cantidad = $producto->pivot->cantidad;
+        unset($producto->pivot);
+        }
+        return response()->json($productos,201)
+    }
+
+    /*
     public function getCarrito(Request $request){
         $data = json_decode($request->getContent(), true);
         $usuario = Usuario::find($data["user_id"]);
@@ -94,7 +140,7 @@ class PedidoController extends Controller
 
         return response()->json($productos,201);
     }
-
+*/
 
     public function delete($id){
         $pedido = Pedido::findOrFail($id);

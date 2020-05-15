@@ -20,17 +20,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Usuario Route
 Route::get('usuarios/{id}','UsuarioController@get');
-Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito');
 Route::get('usuarios/','UsuarioController@getAll');
 Route::post('usuarios','UsuarioController@new');
 Route::put('usuarios/{id}','UsuarioController@edit');
 Route::delete('usuarios/{id}','UsuarioController@delete');
 
-///Pedid\
-Route::get('carrito','PedidoController@getCarrito');
-Route::put('carrito','PedidoController@edit');
+Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito');
+Route::post('usuarios/{id}/carrito','UsuarioController@postCarrito');
+Route::put('usuarios/{id}/carrito','UsuarioController@putCarrito');
+///Pedidos
+//Route::get('carrito','PedidoController@getCarrito');
+//Route::put('carrito','PedidoController@edit');
 
 Route::get('pedidos/{id}','PedidoController@getById');
+Route::put('pedidos/{id}','PedidoController@putProducto');
+Route::post('pedidos/{id}','PedidoController@postProducto');
+Route::delete('pedidos/{id}','PedidoController@deleteProducto');
+
+
 Route::get('pedidos','PedidoController@get');
 Route::delete('pedidos/{id}','PedidoController@delete');
 
