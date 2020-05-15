@@ -19,11 +19,13 @@ class CreatePedidoProductosTable extends Migration
             $table->foreignId('producto_id')->constrained();
             $table->integer('cantidad');
         });
-    
+
         DB::connection('mysql')->table('usuarios')->insert([
-                
+
             [
-                'id'=>'tinchorin',
+                'username'=>'tinchorin',
+                'password'=>Hash::make('123456'),
+                'email'=>'tincho@rin.com',
                 'nombre' => 'martin',
                 'apellido'=> 'canal',
                 'direccion'=> '',
@@ -32,42 +34,43 @@ class CreatePedidoProductosTable extends Migration
             ]
 
         ]);
+
         DB::connection('mysql')->table('pedidos')->insert([
-                
+
             [
-                
-                'usuario_id' => 'tinchorin'
+
+                'usuario_username' => 'tinchorin'
             ],
             [
-                
-                'usuario_id' => 'tinchorin',
-                
+
+                'usuario_username' => 'tinchorin',
+
             ]
-            
+
 
         ]);
-        
+
         DB::connection('mysql')->table('productos')->insert([
-                
+
             [
                 'nombre' => 'papa',
                 'descripcion'=>'',
                 'precio' => '99',
-                
+
             ],
             [
                 'nombre' => 'boñato',
                 'descripcion'=>'',
                 'precio' => '9',
-                
+
             ],
             [
                 'nombre' => 'bolas de mono',
                 'descripcion'=>'',
                 'precio' => '999999',
-                
+
             ]
-            
+
 
         ]);
 

@@ -9,7 +9,7 @@ use App\Factura;
 
 class UsuarioController extends Controller
 {
-    
+
 
     public function get($id){
 
@@ -19,14 +19,14 @@ class UsuarioController extends Controller
         return response()->json($usuario,200);
     }
 
-    public function getAll($id){
+    public function getAll(){
 
         $usuario = Usuario::with('pedidos.factura')->get();
         return response()->json($usuario,200);
     }
 
     public function new(Request $request){
-        $usuario =Usuario::create(json_decode($request->getContent(), true));     
+        $usuario =Usuario::create(json_decode($request->getContent(), true));
         return response()->json($usuario,201);
     }
 
@@ -64,7 +64,7 @@ class UsuarioController extends Controller
 
     public function postCarrito($id,Request $request){
         $data = json_decode($request->getContent(), true);
-        $usuario = Usuario::findOrFail($id); 
+        $usuario = Usuario::findOrFail($id);
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         $pedido->productos()->attach($data);
         $pedido->save();
@@ -78,11 +78,11 @@ class UsuarioController extends Controller
 
     public function putCarrito($id,Request $request){
         $data = json_decode($request->getContent(), true);
-        $usuario = Usuario::findOrFail($id); 
+        $usuario = Usuario::findOrFail($id);
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
-       
+
         $pedido->productos()->updateExistingPivot($request->get('producto_id'),["cantidad" => $request->get('cantidad')]);
-        
+
         $pedido->save();
         $productos = $pedido->productos()->get();
         foreach ($productos as $producto) {
@@ -94,8 +94,8 @@ class UsuarioController extends Controller
 
 
     public function deleteCarrito($id,Request $request){
-        
-        $usuario = Usuario::findOrFail($id); 
+
+        $usuario = Usuario::findOrFail($id);
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         $pedido->productos()->detach($request->get('producto_id'));
         $productos = $pedido->productos()->get();
@@ -106,9 +106,9 @@ class UsuarioController extends Controller
         return response()->json($productos,201);
     }
 
-   
+
     public function pagarCarrito($id){
-        $usuario = Usuario::findOrFail($id); 
+        $usuario = Usuario::findOrFail($id);
         $pedido1 = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         //$pedido1->update(['estado' => "pago"]);
         $factura =  new Factura;
@@ -116,7 +116,7 @@ class UsuarioController extends Controller
         foreach ($pedido1->productos()->get() as $producto) {
             $cantidad = $producto->pivot->cantidad;
             $costo = $costo + ($cantidad * $producto->precio);
-        
+
         }
         $factura->total = $costo;
         $pedido1->factura()->save($factura);
@@ -127,7 +127,7 @@ class UsuarioController extends Controller
         return response()->json([],201);
     }
 
-    
+
 
 
 }

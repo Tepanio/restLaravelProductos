@@ -2,17 +2,33 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Model
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
+
+class Usuario extends Authenticatable implements JWTSubject
 {
-    public $timestamps = false;
+    use Notifiable;
+
     public $increment = false;
     protected $keyType = 'string';
-    protected $table = "usuarios";
-    protected $fillable = ['id','nombre','apellido','direccion','telefono','super'];
-    
+    public $primaryKey  = 'username';
+
+    protected $fillable = ['username','nombre','apellido','direccion','telefono','admin', 'email'];
+
     public function pedidos(){
         return $this->hasMany(Pedido::class);
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
