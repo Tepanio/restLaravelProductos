@@ -96,10 +96,10 @@ class PedidoController extends Controller
         return response()->json($productos,201);
     }
 
-    public function putProducto($id,Request $request){
+    public function putProducto($id,$id_producto,Request $request){
         $data = json_decode($request->getContent(), true);
         $pedido = Pedido::findOrFail($id);
-        $pedido->productos()->updateExistingPivot($request->get('producto_id'),["cantidad" => $request->get('cantidad')]);
+        $pedido->productos()->updateExistingPivot($id_producto,["cantidad" => $request->get('cantidad')]);
         $pedido->save();
         $productos = $pedido->productos()->get();
         foreach ($productos as $producto) {
@@ -108,10 +108,11 @@ class PedidoController extends Controller
         }
         return response()->json($productos,201);
     }
-    public function deleteProducto($id,Request $request){
+
+    public function deleteProducto($id,$id_producto,Request $request){
         $data = json_decode($request->getContent(), true);
         $pedido = Pedido::findOrFail($id);
-        $pedido->productos()->detach($data);
+        $pedido->productos()->detach($id_producto);
        
         $productos = $pedido->productos()->get();
         foreach ($productos as $producto) {

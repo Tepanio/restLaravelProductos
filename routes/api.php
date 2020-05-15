@@ -29,15 +29,18 @@ Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito');
 Route::post('usuarios/{id}/carrito','UsuarioController@postCarrito');
 Route::put('usuarios/{id}/carrito','UsuarioController@putCarrito');
 Route::delete('usuarios/{id}/carrito','UsuarioController@deleteCarrito');
+Route::put('usuarios/{id}/carrito/pagar','UsuarioController@pagarCarrito');
+
 
 ///Pedidos
 //Route::get('carrito','PedidoController@getCarrito');
 //Route::put('carrito','PedidoController@edit');
 
 Route::get('pedidos/{id}','PedidoController@getById');
-Route::put('pedidos/{id}','PedidoController@putProducto');
-Route::post('pedidos/{id}','PedidoController@postProducto');
-Route::delete('pedidos/{id}','PedidoController@deleteProducto');
+
+Route::put('pedidos/{id}/producto/{id_producto}','PedidoController@putProducto');
+Route::post('pedidos/{id}/producto','PedidoController@postProducto');
+Route::delete('pedidos/{id}/producto/{id_producto}','PedidoController@deleteProducto');
 
 
 Route::get('pedidos','PedidoController@get');

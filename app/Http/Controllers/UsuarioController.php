@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Usuario;
 use App\Producto;
 use App\Pedido;
+use App\Factura;
 
 class UsuarioController extends Controller
 {
@@ -104,6 +105,29 @@ class UsuarioController extends Controller
         }
         return response()->json($productos,201);
     }
+
+   
+    public function pagarCarrito($id){
+        $usuario = Usuario::findOrFail($id); 
+        $pedido1 = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
+        //$pedido1->update(['estado' => "pago"]);
+        $factura =  new Factura;
+        $costo = 0;
+        foreach ($pedido1->productos()->get() as $producto) {
+            $cantidad = $producto->pivot->cantidad;
+            $costo = $costo + ($cantidad * $producto->precio);
+        
+        }
+        $factura->total = $costo;
+        $pedido1->factura()->save($factura);
+      //  $pedido = new Pedido;
+       // $pedido->estado= 'carrito';
+       // $usuario->pedidos()->save($pedido);
+       // $pedido->save();
+        return response()->json([],201);
+    }
+
+    
 
 
 }
