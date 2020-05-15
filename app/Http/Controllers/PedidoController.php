@@ -118,7 +118,7 @@ class PedidoController extends Controller
             $producto->cantidad = $producto->pivot->cantidad;
         unset($producto->pivot);
         }
-        return response()->json($productos,201)
+        return response()->json($productos,201);
     }
 
     /*

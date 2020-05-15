@@ -28,6 +28,8 @@ Route::delete('usuarios/{id}','UsuarioController@delete');
 Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito');
 Route::post('usuarios/{id}/carrito','UsuarioController@postCarrito');
 Route::put('usuarios/{id}/carrito','UsuarioController@putCarrito');
+Route::delete('usuarios/{id}/carrito','UsuarioController@deleteCarrito');
+
 ///Pedidos
 //Route::get('carrito','PedidoController@getCarrito');
 //Route::put('carrito','PedidoController@edit');

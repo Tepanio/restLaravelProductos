@@ -92,4 +92,18 @@ class UsuarioController extends Controller
     }
 
 
+    public function deleteCarrito($id,Request $request){
+        
+        $usuario = Usuario::findOrFail($id); 
+        $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
+        $pedido->productos()->detach($request->get('producto_id'));
+        $productos = $pedido->productos()->get();
+        foreach ($productos as $producto) {
+            $producto->cantidad = $producto->pivot->cantidad;
+        unset($producto->pivot);
+        }
+        return response()->json($productos,201);
+    }
+
+
 }
