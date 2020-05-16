@@ -11,12 +11,12 @@ use Illuminate\Notifications\Notifiable;
 class Usuario extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-
+    public $timestamps = false;
     public $increment = false;
     protected $keyType = 'string';
     public $primaryKey  = 'username';
 
-    protected $fillable = ['username','nombre','apellido','direccion','telefono','admin', 'email'];
+    protected $fillable = ['username','password','nombre','apellido','direccion','telefono','admin', 'email'];
 
     public function pedidos(){
         return $this->hasMany(Pedido::class);

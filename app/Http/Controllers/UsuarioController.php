@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Usuario;
 use App\Producto;
 use App\Pedido;
@@ -26,7 +27,9 @@ class UsuarioController extends Controller
     }
 
     public function new(Request $request){
-        $usuario =Usuario::create(json_decode($request->getContent(), true));
+        $usuario_data = json_decode($request->getContent(),true);
+        $usuario_data['password'] = Hash::make($usuario_data['password']);
+        $usuario =Usuario::create($usuario_data);
         return response()->json($usuario,201);
     }
 
