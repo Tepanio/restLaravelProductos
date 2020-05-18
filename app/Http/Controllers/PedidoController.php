@@ -10,14 +10,15 @@ class PedidoController extends Controller
 
 {
     public function get(Request $request){
-        $usuario_id = $request->get('usuario_id');
+        $usuario_username = $request->get('username');
         $estado = $request->get('estado');
         $comparacion = [];
-        if(is_null($usuario_id)){
-           array_push($comparacion ,['usuario_id','!=',$usuario_id]); 
+        
+        if(is_null($usuario_username)){
+           array_push($comparacion ,['usuario_username','!=',$usuario_username]); 
         }
         else{
-            array_push($comparacion ,['usuario_id','=',$usuario_id]);
+            array_push($comparacion ,['usuario_username','=',$usuario_username]);
             array_push($comparacion ,['estado','!=','carrito']); 
         }
         if(is_null($estado)){
