@@ -17,7 +17,9 @@ class Usuario extends Authenticatable implements JWTSubject
     public $primaryKey  = 'username';
 
     protected $fillable = ['username','password','nombre','apellido','direccion','telefono','admin', 'email'];
-
+    protected $hidden = [
+        'password',
+    ];
     public function pedidos(){
         return $this->hasMany(Pedido::class);
     }

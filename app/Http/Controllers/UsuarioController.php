@@ -15,8 +15,7 @@ class UsuarioController extends Controller
     public function get($id){
 
         Usuario::findOrFail($id);
-        $usuario = Usuario::with('pedidos.factura')->where('id','=',$id)->get();
-
+        $usuario = Usuario::with('pedidos.factura')->where('username','=',$id)->firstOrFail();
         return response()->json($usuario,200);
     }
 
