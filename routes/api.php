@@ -48,16 +48,19 @@ Route::group([
     ///Pedidos
     //Route::get('carrito','PedidoController@getCarrito');
     //Route::put('carrito','PedidoController@edit');
-
-    Route::get('pedidos/{id}','PedidoController@getById');
-
-    Route::put('pedidos/{id}/producto/{id_producto}','PedidoController@putProducto');
-    Route::post('pedidos/{id}/producto','PedidoController@postProducto');
-    Route::delete('pedidos/{id}/producto/{id_producto}','PedidoController@deleteProducto');
-
-
+    
     Route::get('pedidos','PedidoController@get');
+    Route::get('pedidos/{id}','PedidoController@getById');
+    Route::put('pedidos/{id}','PedidoController@changeState');
     Route::delete('pedidos/{id}','PedidoController@delete');
+
+
+    Route::put('pedidos/{id}/productos/{id_producto}','PedidoController@putProducto');
+    Route::post('pedidos/{id}/productos','PedidoController@postProducto');
+    Route::delete('pedidos/{id}/productos/{id_producto}','PedidoController@deleteProducto');
+
+
+    
 
     ///Articulo
     Route::get('productos','ProductoController@get');

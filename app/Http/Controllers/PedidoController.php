@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Usuario;
 use App\Producto;
 use App\Pedido;
+use App\Factura;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
@@ -148,6 +149,33 @@ class PedidoController extends Controller
         $pedido = Pedido::findOrFail($id);
         $pedido->delete();
         return response()->json(null,204);
+    }
+
+    public function changeState($id,Request $request){
+
+        $pedido = Pedido::with("factura")->findOrFail($id);
+        $estado = $request->get('estado');
+        //$pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
+        $pedido->update(['estado' => $estado]);
+        if(strcmp($estado, 'pago') == 0){
+            $factura =  new Factura;
+            $costo = 0;
+            foreach ($pedido->productos()->get() as $producto) {
+                $cantidad = $producto->pivot->cantidad;
+                $costo = $costo + ($cantidad * $producto->precio);
+            
+            }
+        
+        $factura->total = $costo;
+        error_log($costo);
+        $pedido->factura()->save($factura);
+        }
+        ///$pedido = new Pedido;
+        // $pedido->estado= 'carrito';
+        // $usuario->pedidos()->save($pedido);
+        // $pedido->save();
+        $pedido = Pedido::with("factura")->findOrFail($id);
+        return response()->json($pedido,201);
     }
 
 
