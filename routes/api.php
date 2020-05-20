@@ -41,7 +41,7 @@ Route::group([
     Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito');
     Route::post('usuarios/{id}/carrito','UsuarioController@postCarrito');
     Route::put('usuarios/{id}/carrito','UsuarioController@putCarrito');
-    Route::delete('usuarios/{id}/carrito','UsuarioController@deleteCarrito');
+    Route::delete('usuarios/{id}/carrito/$producto_id','UsuarioController@deleteCarrito');
     Route::put('usuarios/{id}/carrito/pagar','UsuarioController@pagarCarrito');
 
 

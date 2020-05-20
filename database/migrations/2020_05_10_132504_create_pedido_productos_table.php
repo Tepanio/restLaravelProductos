@@ -17,7 +17,7 @@ class CreatePedidoProductosTable extends Migration
             $table->id();
             $table->foreignId('pedido_id')->constrained()->onDelete('cascade');
             $table->foreignId('producto_id')->constrained();
-            $table->integer('cantidad');
+            $table->integer('cantidad')->default(1);
         });
 
         DB::connection('mysql')->table('usuarios')->insert([

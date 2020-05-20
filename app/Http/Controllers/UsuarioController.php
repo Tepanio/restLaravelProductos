@@ -66,6 +66,7 @@ class UsuarioController extends Controller
 
     public function postCarrito($id,Request $request){
         $data = json_decode($request->getContent(), true);
+        error_log("json\n" . json_encode($request->getContent(), JSON_PRETTY_PRINT));
         $usuario = Usuario::findOrFail($id);
         if ($usuario->pedidos()->where('estado','=','carrito')->exists()){
             $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
@@ -102,11 +103,11 @@ class UsuarioController extends Controller
     }
 
 
-    public function deleteCarrito($id,Request $request){
+    public function deleteCarrito($id,Request $request,$producto_id){
 
         $usuario = Usuario::findOrFail($id);
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
-        $pedido->productos()->detach($request->get('producto_id'));
+        $pedido->productos()->detach($producto_id);
         $productos = $pedido->productos()->get();
         foreach ($productos as $producto) {
             $producto->cantidad = $producto->pivot->cantidad;
