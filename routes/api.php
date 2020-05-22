@@ -27,18 +27,15 @@ Route::group([
 });
 
 
-//Las rutas que esten definidas en este callback requieren que un usuario este logueado,
-//todavia no se controla la confirmacion del mail.
 Route::group([
-    'middleware' => 'auth:api',
+    'middleware' => ['auth:api', 'verified'],
 ], function ($router) {
-    Route::get('usuarios/{id}','UsuarioController@get');
-    Route::get('usuarios','UsuarioController@getAll');
-    Route::post('usuarios','UsuarioController@new');
-    Route::put('usuarios/{id}','UsuarioController@edit');
-    Route::delete('usuarios/{id}','UsuarioController@delete');
+    Route::get('usuarios/{id}','UsuarioController@get'); //Condicional: usuario puede pedir sus datos
+    Route::get('usuarios','UsuarioController@getAll')->middleware('admin');
+    Route::put('usuarios/{id}','UsuarioController@edit'); //Condicional: usuario puede modificarse a si mismo
+    Route::delete('usuarios/{id}','UsuarioController@delete'); //Condicional: usuario puede borrarse a si mismo
 
-    Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito');
+    Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito'); //Condicional: usuario puede pedir sus datos
     Route::post('usuarios/{id}/carrito','UsuarioController@postCarrito');
     Route::put('usuarios/{id}/carrito','UsuarioController@putCarrito');
     Route::delete('usuarios/{id}/carrito/$producto_id','UsuarioController@deleteCarrito');
@@ -48,7 +45,7 @@ Route::group([
     ///Pedidos
     //Route::get('carrito','PedidoController@getCarrito');
     //Route::put('carrito','PedidoController@edit');
-    
+
     Route::get('pedidos','PedidoController@get');
     Route::get('pedidos/{id}','PedidoController@getById');
     Route::put('pedidos/{id}','PedidoController@changeState');
@@ -60,7 +57,7 @@ Route::group([
     Route::delete('pedidos/{id}/productos/{id_producto}','PedidoController@deleteProducto');
 
 
-    
+
 
     ///Articulo
     Route::get('productos','ProductoController@get');
@@ -68,3 +65,12 @@ Route::group([
     Route::put('productos/{id}','ProductoController@edit');
     Route::delete('productos/{id}','ProductoController@delete');
 });
+
+Route::post('usuarios','UsuarioController@new');
+
+Route::get('usuarios/{username}/verification/resend', 'VerificationController@resend')->name('verification.resend');
+Route::get('usuarios/{username}/verification/{hash}', 'VerificationController@verify')->name('verification.verify');
+
+Route::get('usuarios/{username}/password/email', 'PasswordResetController@sendResetLinkEmail');
+Route::post('usuarios/password/reset', 'PasswordResetController@reset')->name('password.update');
+Route::get('usuarios/password/{username}/reset/{token}')->name('password.reset');

@@ -16,7 +16,7 @@ class CreateFacturasTable extends Migration
         Schema::create('facturas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pedido_id')->constrained()->onDelete('cascade');
-            $table->float('total');
+            $table->decimal('total',12);
         });
     }
 

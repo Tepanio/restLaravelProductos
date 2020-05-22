@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Usuario;
@@ -27,7 +28,13 @@ class UsuarioController extends Controller
     public function new(Request $request){
         $usuario_data = json_decode($request->getContent(),true);
         $usuario_data['password'] = Hash::make($usuario_data['password']);
-        $usuario =Usuario::create($usuario_data);
+        $usuario_data['admin'] = false;
+        Usuario::create($usuario_data);
+
+        $usuario = Usuario::find($usuario_data['username']);
+
+        event(new Registered($usuario));
+
         return response()->json($usuario,201);
     }
 
@@ -54,7 +61,7 @@ class UsuarioController extends Controller
         //    $usuario->pedidos()->save($pedido);
         //    $pedido->save();
         //}
-        
+
         $productos = $pedido->productos()->get();
         foreach ($productos as $producto) {
             $producto->cantidad = $producto->pivot->cantidad;
@@ -75,7 +82,7 @@ class UsuarioController extends Controller
             $pedido = new Pedido;
             $usuario->pedidos()->save($pedido);
         }
-        
+
         $pedido->productos()->attach($data);
         $pedido->save();
 

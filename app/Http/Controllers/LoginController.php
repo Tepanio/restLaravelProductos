@@ -15,8 +15,6 @@ class LoginController extends Controller
     {
         $credentials = $request->only(['username', 'password']);
 
-        error_log(json_encode($credentials));
-
         if( ! $token = auth()->attempt($credentials)) {
             return response()->json('', 401);
         }

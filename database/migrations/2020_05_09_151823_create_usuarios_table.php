@@ -17,11 +17,13 @@ class CreateUsuariosTable extends Migration
             $table->string('username',20)->primary();
             $table->string('password');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('nombre');
             $table->string('apellido');
             $table->string('direccion');
             $table->string('telefono');
-            $table->boolean('admin');
+            $table->boolean('admin')->default(false);
+            $table->timestamps();
         });
     }
 

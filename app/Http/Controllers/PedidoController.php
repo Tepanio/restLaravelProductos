@@ -14,20 +14,20 @@ class PedidoController extends Controller
         $usuario_username = $request->get('username');
         $estado = $request->get('estado');
         $comparacion = [];
-        
+
         if(is_null($usuario_username)){
-           array_push($comparacion ,['usuario_username','!=',$usuario_username]); 
+           array_push($comparacion ,['usuario_username','!=',$usuario_username]);
         }
         else{
             array_push($comparacion ,['usuario_username','=',$usuario_username]);
-            array_push($comparacion ,['estado','!=','carrito']); 
+            array_push($comparacion ,['estado','!=','carrito']);
         }
         if(is_null($estado)){
-            array_push($comparacion ,['estado','!=',$estado]); 
+            array_push($comparacion ,['estado','!=',$estado]);
          }
          else{
              array_push($comparacion ,['estado','=',$estado]);
-             array_push($comparacion ,['estado','!=','carrito']); 
+             array_push($comparacion ,['estado','!=','carrito']);
          }
 
         $pedidos = Pedido::with('productos','factura')->where($comparacion)->get()
@@ -39,7 +39,7 @@ class PedidoController extends Controller
             });
 
         });
-        
+
         return response()->json($pedidos,201);
     }
 
@@ -55,7 +55,7 @@ class PedidoController extends Controller
             });
 
         });
-        
+
         return response()->json($pedidos,201);
     }
 
@@ -65,13 +65,13 @@ class PedidoController extends Controller
         $data = json_decode($request->getContent(), true);
         $id = $request->get('user_id');
         $usuario = Usuario::findOrFail($id);
-        
+
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         $pedido->productos()->detach();
         $pedido->save();
-        
+
         $pedido->productos()->attach($data['productos']);
-        
+
         $pedido->save();
         $productos = $pedido->productos()->get();
         foreach ($productos as $producto) {
@@ -115,7 +115,7 @@ class PedidoController extends Controller
         $data = json_decode($request->getContent(), true);
         $pedido = Pedido::findOrFail($id);
         $pedido->productos()->detach($id_producto);
-       
+
         $productos = $pedido->productos()->get();
         foreach ($productos as $producto) {
             $producto->cantidad = $producto->pivot->cantidad;
@@ -152,9 +152,13 @@ class PedidoController extends Controller
     }
 
     public function changeState($id,Request $request){
-
         $pedido = Pedido::with("factura")->findOrFail($id);
         $estado = $request->get('estado');
+
+        if($estado === $pedido->estado) {
+            return response()->json('',500);
+        }
+
         //$pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         $pedido->update(['estado' => $estado]);
         if(strcmp($estado, 'pago') == 0){
@@ -163,12 +167,15 @@ class PedidoController extends Controller
             foreach ($pedido->productos()->get() as $producto) {
                 $cantidad = $producto->pivot->cantidad;
                 $costo = $costo + ($cantidad * $producto->precio);
-            
+
             }
-        
-        $factura->total = $costo;
-        error_log($costo);
-        $pedido->factura()->save($factura);
+
+            $factura->total = $costo;
+            error_log($costo);
+            $pedido->factura()->save($factura);
+
+            $user = Usuario::find($pedido->usuario_username);
+            $user->sendPaymentReceivedNotification();
         }
         ///$pedido = new Pedido;
         // $pedido->estado= 'carrito';
@@ -179,5 +186,5 @@ class PedidoController extends Controller
     }
 
 
-    
+
 }
