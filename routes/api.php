@@ -30,16 +30,16 @@ Route::group([
 Route::group([
     'middleware' => ['auth:api', 'verified'],
 ], function ($router) {
-    Route::get('usuarios/{id}','UsuarioController@get'); //Condicional: usuario puede pedir sus datos
-    Route::get('usuarios','UsuarioController@getAll')->middleware('admin');
-    Route::put('usuarios/{id}','UsuarioController@edit'); //Condicional: usuario puede modificarse a si mismo
-    Route::delete('usuarios/{id}','UsuarioController@delete'); //Condicional: usuario puede borrarse a si mismo
+    Route::get('usuarios/','UsuarioController@get'); //Condicional: usuario puede pedir sus datos
+    Route::get('usuarios/all','UsuarioController@getAll')->middleware('admin');
+    Route::put('usuarios/','UsuarioController@edit'); //Condicional: usuario puede modificarse a si mismo
+    Route::delete('usuarios/','UsuarioController@delete'); //Condicional: usuario puede borrarse a si mismo
 
-    Route::get('usuarios/{id}/carrito','UsuarioController@getCarrito'); //Condicional: usuario puede pedir sus datos
-    Route::post('usuarios/{id}/carrito','UsuarioController@postCarrito');
-    Route::put('usuarios/{id}/carrito','UsuarioController@putCarrito');
-    Route::delete('usuarios/{id}/carrito/$producto_id','UsuarioController@deleteCarrito');
-    Route::put('usuarios/{id}/carrito/pagar','UsuarioController@pagarCarrito');
+    Route::get('usuarios/carrito','UsuarioController@getCarrito'); //Condicional: usuario puede pedir sus datos
+    Route::post('usuarios/carrito','UsuarioController@postCarrito');
+    Route::put('usuarios/carrito','UsuarioController@putCarrito');
+    Route::delete('usuarios/carrito/{producto_id}','UsuarioController@deleteCarrito');
+    Route::put('usuarios/carrito/pagar','UsuarioController@pagarCarrito');
 
 
     ///Pedidos

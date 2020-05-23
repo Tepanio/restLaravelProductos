@@ -13,10 +13,12 @@ class UsuarioController extends Controller
 {
 
 
-    public function get($id){
-
-        $usuario = Usuario::with('pedidos.factura')->where('username','=',$id)->firstOrFail();
+    public function get(){
+        $username = auth()->user()->username;
+        error_log('username:'. $username);
+        $usuario = Usuario::with('pedidos.factura')->where('username','=',$username)->firstOrFail();
         return response()->json($usuario,200);
+    
     }
 
     public function getAll(){
@@ -38,22 +40,28 @@ class UsuarioController extends Controller
         return response()->json($usuario,201);
     }
 
-    public function edit(Request $request, $id){
-        $usuario = Usuario::findOrFail($id);
+    public function edit(Request $request){
+        $username = auth()->user()->username;
+        error_log('username:'. $username);
+        $usuario = Usuario::findOrFail($username);
         $usuario->update(json_decode($request->getContent(), true));
         return response()->json($usuario, 200);
     }
 
-    public function delete($id){
-        $usuario = Usuario::find($id);
+    public function delete(){
+        $username = auth()->user()->username;
+        error_log('username:'. $username);
+        $usuario = Usuario::findOrFail($username);
         $usuario->delete();
         return response()->json(null,204);
     }
 
 
-    public function getCarrito($id,Request $request){
-        $data = json_decode($request->getContent(), true);
-        $usuario = Usuario::findOrFail($id);
+    public function getCarrito(Request $request){
+        //$data = json_decode($request->getContent(), true);
+        $username = auth()->user()->username;
+        error_log('username:'. $username);
+        $usuario = Usuario::findOrFail($username);
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         //if(is_null($pedido)){
         //    $pedido = new Pedido;
@@ -71,10 +79,12 @@ class UsuarioController extends Controller
         return response()->json($productos,201);
     }
 
-    public function postCarrito($id,Request $request){
+    public function postCarrito(Request $request){
         $data = json_decode($request->getContent(), true);
         error_log("json\n" . json_encode($request->getContent(), JSON_PRETTY_PRINT));
-        $usuario = Usuario::findOrFail($id);
+        $username = auth()->user()->username;
+        error_log('username:'. $username);
+        $usuario = Usuario::findOrFail($username);
         if ($usuario->pedidos()->where('estado','=','carrito')->exists()){
             $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         }
@@ -94,9 +104,12 @@ class UsuarioController extends Controller
         return response()->json($productos,201);
     }
 
-    public function putCarrito($id,Request $request){
+    public function putCarrito(Request $request){
         $data = json_decode($request->getContent(), true);
-        $usuario = Usuario::findOrFail($id);
+        
+        $username = auth()->user()->username;
+        error_log('username:'. $username);
+        $usuario = Usuario::findOrFail($username);
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         $pedido->productos()->updateExistingPivot($request->get('producto_id'),["cantidad" => $request->get('cantidad')]);
 
@@ -110,9 +123,10 @@ class UsuarioController extends Controller
     }
 
 
-    public function deleteCarrito($id,Request $request,$producto_id){
-
-        $usuario = Usuario::findOrFail($id);
+    public function deleteCarrito(Request $request,$producto_id){
+        $username = auth()->user()->username;
+        error_log('username:'. $username);
+        $usuario = Usuario::findOrFail($username);
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         $pedido->productos()->detach($producto_id);
         $productos = $pedido->productos()->get();
@@ -124,8 +138,10 @@ class UsuarioController extends Controller
     }
 
 
-    public function pagarCarrito($id){
-        $usuario = Usuario::findOrFail($id);
+    public function pagarCarrito(){
+        $username = auth()->user()->username;
+        error_log('username:'. $username);
+        $usuario = Usuario::findOrFail($username);
         $pedido = $usuario->pedidos()->where('estado','=','carrito')->firstOrFail();
         $pedido->update(['estado' => "pendiente"]);
       //  $factura =  new Factura;
