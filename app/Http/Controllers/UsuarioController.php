@@ -32,12 +32,19 @@ class UsuarioController extends Controller
         $usuario_data['password'] = Hash::make($usuario_data['password']);
         $usuario_data['admin'] = false;
         Usuario::create($usuario_data);
-
+        
         $usuario = Usuario::find($usuario_data['username']);
 
-        event(new Registered($usuario));
-
-        return response()->json($usuario,201);
+        //event(new Registered($usuario));
+        $credentials = $request->only(['username', 'password']);
+        if( ! $token = auth()->attempt($credentials)) {
+            return response()->json('', 401);
+        }
+ 
+        return response()->json([
+            'token' => $token,
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 
     public function edit(Request $request){
