@@ -19,7 +19,7 @@ class LoginController extends Controller
             return response()->json('', 401);
         }
 
-        return $this->tokenResponse($token);
+        return $this->tokenResponse($token, auth()->user()->admin);
     }
 
     public function logout()
@@ -30,11 +30,12 @@ class LoginController extends Controller
     }
 
 
-    protected function tokenResponse($token)
+    protected function tokenResponse($token, $admin)
     {
         return response()->json([
             'token' => $token,
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'admin' => $admin
         ]);
     }
 }

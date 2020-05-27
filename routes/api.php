@@ -60,11 +60,12 @@ Route::group([
 
 
     ///Articulo
-    Route::get('productos','ProductoController@get');
     Route::post('productos','ProductoController@new');
     Route::put('productos/{id}','ProductoController@edit');
     Route::delete('productos/{id}','ProductoController@delete');
 });
+
+Route::get('productos','ProductoController@get');
 
 Route::post('usuarios','UsuarioController@new');
 
