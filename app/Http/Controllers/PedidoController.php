@@ -17,6 +17,7 @@ class PedidoController extends Controller
 
         if(is_null($usuario_username)){
            array_push($comparacion ,['usuario_username','!=',$usuario_username]);
+           array_push($comparacion ,['estado','!=','carrito']);
         }
         else{
             array_push($comparacion ,['usuario_username','=',$usuario_username]);
