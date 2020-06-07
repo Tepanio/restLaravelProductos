@@ -100,6 +100,17 @@ class UsuarioController extends Controller
             $usuario->pedidos()->save($pedido);
         }
 
+
+        error_log($data[0]["producto_id"]);
+        
+        //error_log("Antes del If");
+        
+
+        if ($pedido->productos()->get()->contains($data[0]["producto_id"])) {
+            //error_log("no me trates de tocar violador o tr escracho");
+            return response()->json("",204);
+        }
+        error_log("Despues del If");
         $pedido->productos()->attach($data);
         $pedido->save();
 
