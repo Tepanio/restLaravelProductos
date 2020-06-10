@@ -35,7 +35,7 @@ class UsuarioController extends Controller
         
         $usuario = Usuario::find($usuario_data['username']);
 
-        //event(new Registered($usuario));
+        event(new Registered($usuario));
         $credentials = $request->only(['username', 'password']);
         if( ! $token = auth()->attempt($credentials)) {
             return response()->json('', 401);
