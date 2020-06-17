@@ -15,5 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+    
+});
+    
+
+
+Route::get('/usuarios/password/{username}/reset/{token}', function ($username,$token) {
+    return view('reset')->with('username',$username)->with('token',$token);
 });
 
+//['username'=>$username],['token'=>$token]
