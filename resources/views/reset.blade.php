@@ -55,20 +55,69 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+
+            .card {
+            
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+            }
+
+            
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+            
+            .container {
+            padding: 2px 16px;
+            
+            }
+            .center{
+                text-align:center;
+                padding:1em;
+            }
+            .fright{
+                float:right;
+            }
+            .alignRight{
+                align:right;
+            }
+
+            #passForm > * {
+                padding: 0.2em;
+            }
+
         </style>
 </head>
 <body>
-<h1>Ingrese su nuevo password {{$username}}</h1>
+
 <div class="flex-center position-ref full-height">
     
+    <div class="card">
+        <h1 class="center">Password Reset</h1>
+        <form id=passForm style="float:center;">
+            
+            <input type="hidden" id="user" name="user" value="{{$username}}">
+            <input type="hidden" id="token" name="token" value="{{$token}}">
+            <div>
+            <label for="password">Password:</label>
+            </div>
+            <div>
+            <input type="password" id="pass" name="pass">
+            </div>
+            <div>
+            <label for="password">Confirm Pass:</label>
+            </div>
+            <div>
+            <input type="password" id="passcon" name="passcon">
+            </div>
+            <div>
+            <input style="float:right;" type="submit" value="Confirmar" >
+            </div>
+        </form>
     
-    <form id=passForm >
-        <label for="password">New Password:</label>
-        <input type="hidden" id="user" name="user" value="{{$username}}">
-        <input type="hidden" id="token" name="token" value="{{$token}}">
-        <input type="password" id="pass" name="pass">
-        <input type="submit" value="Submit" >
-    </form>
+    </div>
     
     <script>
         async function fetchPass(username,password,token) {
@@ -84,14 +133,21 @@
         //this.setState({todosProductos: json});
     }
         
-        
+         function Validate(pass,passcon) {
+             
+        if (pass != passcon) {
+            alert("Las contraseñas no coinciden.");
+            return false;
+        }
+        return true;
+        }
         var form =  document.getElementById('passForm');
         form.onsubmit = function (e){
             e.preventDefault();
-           // console.log("pass" + form.pass.value);
-            //console.log("token" + form.token.value);
-            //console.log("user" + form.user.value);
-            fetchPass(form.user.value,form.pass.value,form.token.value);
+            
+            if(Validate(form.pass.value,form.passcon.value)){
+                fetchPass(form.user.value,form.pass.value,form.token.value);
+            }
         }
 
     </script>
