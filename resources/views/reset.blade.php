@@ -114,22 +114,46 @@
             </div>
             <div>
             <input style="float:right;" type="submit" value="Confirmar" >
+            
             </div>
         </form>
     
     </div>
     
     <script>
+
+        function reDirect(){
+            
+        }
         async function fetchPass(username,password,token) {
+
             console.log(username,password,token)
-        //  let json = await fetch(`http://localhost:8000/api/productos`, {
-        //    method: "get",
-        //    headers: {
-        //        "Content-Type": "application/json",
-        //        'Authorization': `Bearer ${token}`,
-        //        "Accept": "application/json"
-        //    },
-        //}).then(res => res.json());
+          let response = await fetch(`http://localhost:8000/api/usuarios/password/reset`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+                //'Authorization': `Bearer ${token}`,
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                "username": username,
+                "password": password,
+                "token": token
+            })
+
+        });
+
+        console.log(response.status);      
+        if (response.status == 200 || response.status == 204) {
+            window.location.href = "http://localhost:3000";
+           
+        }  
+        else{
+            alert('Hubo un error al cambiar la Contraseña');
+        }
+
+        
+        //console.log(res);
         //this.setState({todosProductos: json});
     }
         
