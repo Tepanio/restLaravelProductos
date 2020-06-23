@@ -74,4 +74,4 @@ Route::get('usuarios/{username}/verification/{hash}', 'VerificationController@ve
 
 Route::get('usuarios/{username}/password/email', 'PasswordResetController@sendResetLinkEmail');
 Route::post('usuarios/password/reset', 'PasswordResetController@reset')->name('password.update');
-Route::get('usuarios/password/{username}/reset/{token}')->name('password.reset');
+//Route::get('usuarios/password/{username}/reset/{token}')->name('password.reset');

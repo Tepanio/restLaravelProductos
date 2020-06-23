@@ -22,6 +22,6 @@ Route::get('/', function () {
 
 Route::get('/usuarios/password/{username}/reset/{token}', function ($username,$token) {
     return view('reset')->with('username',$username)->with('token',$token);
-});
+})->name('password.reset');
 
 //['username'=>$username],['token'=>$token]
