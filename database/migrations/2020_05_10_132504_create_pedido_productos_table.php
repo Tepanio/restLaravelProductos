@@ -23,8 +23,8 @@ class CreatePedidoProductosTable extends Migration
         DB::connection('mysql')->table('usuarios')->insert([
 
             [
-                'username'=>'tinchorin',
-                'password'=>Hash::make('123456'),
+                'username'=>'admin',
+                'password'=>Hash::make('admin'),
                 'email'=>'tincho@rin.com',
                 'email_verified_at' => \Carbon\Carbon::now()->toDateTime(),
                 'nombre' => 'martin',
@@ -40,11 +40,11 @@ class CreatePedidoProductosTable extends Migration
 
             [
 
-                'usuario_username' => 'tinchorin'
+                'usuario_username' => 'admin'
             ],
             [
 
-                'usuario_username' => 'tinchorin',
+                'usuario_username' => 'admin',
 
             ]
 
@@ -54,21 +54,21 @@ class CreatePedidoProductosTable extends Migration
         DB::connection('mysql')->table('productos')->insert([
 
             [
-                'nombre' => 'papa',
+                'nombre' => 'Ravioles',
                 'descripcion'=>'',
-                'precio' => '99',
+                'precio' => '599',
 
             ],
             [
-                'nombre' => 'boñato',
+                'nombre' => 'Sorrentinos',
                 'descripcion'=>'',
-                'precio' => '9',
+                'precio' => '590',
 
             ],
             [
-                'nombre' => 'bolas de mono',
+                'nombre' => 'Tallarines',
                 'descripcion'=>'',
-                'precio' => '999999',
+                'precio' => '599',
 
             ]
 
