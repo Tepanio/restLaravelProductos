@@ -168,7 +168,6 @@ class PedidoController extends Controller
             foreach ($pedido->productos()->get() as $producto) {
                 $cantidad = $producto->pivot->cantidad;
                 $costo = $costo + ($cantidad * $producto->precio);
-
             }
 
             $factura->total = $costo;

@@ -30,10 +30,10 @@ Route::group([
 Route::group([
     'middleware' => ['auth:api', 'verified'],
 ], function ($router) {
-    Route::get('usuarios/','UsuarioController@get'); //Condicional: usuario puede pedir sus datos
-    Route::get('usuarios/all','UsuarioController@getAll')->middleware('admin');
-    Route::put('usuarios/','UsuarioController@edit'); //Condicional: usuario puede modificarse a si mismo
-    Route::delete('usuarios/','UsuarioController@delete'); //Condicional: usuario puede borrarse a si mismo
+    //Route::get('usuarios/','UsuarioController@get'); //Condicional: usuario puede pedir sus datos
+    //Route::get('usuarios/all','UsuarioController@getAll')->middleware('admin');
+    //Route::put('usuarios/','UsuarioController@edit'); //Condicional: usuario puede modificarse a si mismo
+    //Route::delete('usuarios/','UsuarioController@delete'); //Condicional: usuario puede borrarse a si mismo
 
     Route::get('usuarios/carrito','UsuarioController@getCarrito'); //Condicional: usuario puede pedir sus datos
     Route::post('usuarios/carrito','UsuarioController@postCarrito');
@@ -60,6 +60,7 @@ Route::group([
 
 
     ///Articulo
+    
     Route::post('productos','ProductoController@new');
     Route::put('productos/{id}','ProductoController@edit');
     Route::delete('productos/{id}','ProductoController@delete');

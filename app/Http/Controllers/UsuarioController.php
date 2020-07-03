@@ -107,7 +107,7 @@ class UsuarioController extends Controller
         
 
         if ($pedido->productos()->get()->contains($data[0]["producto_id"])) {
-            //error_log("no me trates de tocar violador o tr escracho");
+            
             return response()->json("",504);
         }
         error_log("Despues del If");
