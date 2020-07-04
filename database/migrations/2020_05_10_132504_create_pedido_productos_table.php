@@ -25,7 +25,7 @@ class CreatePedidoProductosTable extends Migration
             [
                 'username'=>'admin',
                 'password'=>Hash::make('admin'),
-                'email'=>'mipastabase@gmail.com.com',
+                'email'=>'mipastabase@gmail.com',
                 'email_verified_at' => \Carbon\Carbon::now()->toDateTime(),
                 'nombre' => 'martin',
                 'apellido'=> 'canal',
