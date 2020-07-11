@@ -145,7 +145,7 @@
 
         console.log(response.status);      
         if (response.status == 200 || response.status == 204) {
-            window.location.href = "http://localhost:3000";
+            window.location.href = "http://"+ window.location.hostname +":3000";
            
         }  
         else{
