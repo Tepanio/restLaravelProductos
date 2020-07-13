@@ -128,7 +128,7 @@
         async function fetchPass(username,password,token) {
 
             console.log(username,password,token)
-          let response = await fetch("http://:"+ window.location.hostname +"8000/api/usuarios/password/reset", {
+          let response = await fetch("http://"+ window.location.hostname +":8000/api/usuarios/password/reset", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
